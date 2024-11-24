@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://euquarters.neocities.org/deckchecker -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarters legal check</title>
+    <!-- The style.css file allows you to change the look of your web pages.
+         If you include the next line in all your web pages, they will all share the same look.
+         This makes it easier to make new pages for your site. -->
+    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body>
+    <header>
+      <a href="/index.html" class="headerMainLink indexLink">Quarters (A budget commander variant) (Europe version)</a>
+      <a href="/legal99.html" class="headerMainLink otherLinks">Legal cards</a>
+      <a href="/legalCommanders.html" class="headerMainLink otherLinks">Legal commanders</a>
+      <a href="/legalCheck.html" class="headerMainLink otherLinks">Deck checker</a>
+    </header>
+    <div class="bodyContent">
+      <h2>Deck checker tool</h2>
+      <p>
+        This tool allows you to check if your deck (or other list of cards) is quarters legal.<br>
+        If you want to check if your commander is legal (<=€1.00), put it at the very top of the list and check the checkbox.<br>
+        !! This tool does not check if a deck is otherwise commander legal (100 cards, singleton rule etc etc).
+      </p>
+      <input type="checkbox" id="checkbox"/>
+      <label for="checkbox">Commander at start of list</label><br>
+      <textarea autofocus="true" placeholder="Cards can be formatted in these ways: plains                                  1 mountain                             1x forest                           1swamp                           1xisland"></textarea><br>
+      <button id="check">Check this deck</button>
+      <button id="clear">Clear</button>
+      <p id="results"></p>
+    </div>
+    
+    <script>
+      const check = document.querySelector("#check");
+      const clear = document.querySelector("#clear");
+      const textarea = document.querySelector("textarea");
+      const resultArea = document.querySelector("#results");
+      const checkbox = document.querySelector("#checkbox");
+      check.addEventListener("click", (event) => {handleCheck(event)});
+      clear.addEventListener("click", (event) => {
+        textarea.value = "";
+        resultArea.innerHTML = "";
+      });
+
+      const quarters99 = [];
+      const quartersCommander = [];
+      
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", "/quartersLegal99.txt", false);
+      xmlhttp.send();
+      if (xmlhttp.status==200) {
+        xmlhttp.responseText.split("\n").forEach(element => {
+          quarters99.push(element.slice(0, element.length-1));
+        });
+      }
+      xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", "/quartersLegalCommanders.txt", false);
+      xmlhttp.send();
+      if (xmlhttp.status==200) {
+        xmlhttp.responseText.split("\n").forEach(element => {
+          quartersCommander.push(element.slice(0, element.length-1));
+        });
+      }
+      
+      function handleCheck(evt) {
+        const lines = textarea.value.split("\n");
+        let legalCommander = false;
+        const illegal = [];
+        for (i = 0; i < lines.length; i++) {
+          let line = lines[i];
+          if (line == "") {
+            continue;
+          }
+          
+          // Remove card count from input
+          if (!isNaN(parseFloat(line.at(0)))) {
+            line = line.slice(1, line.length);
+            if (line.at(0) == "x") {
+              line = line.slice(1, line.length);
+            }
+            if (line.at(0) == " ") {
+              line = line.slice(1, line.length);
+            }
+          }
+          
+          // Check if it's legal
+          if (i == 0 && checkbox.checked){
+            if (quartersCommander.includes(line)) {
+              legalCommander = true;
+            }
+          } else {
+            if (!quarters99.includes(line)) {
+              illegal.push(line);
+            }
+          }
+        }
+
+        if (checkbox.checked) {
+          resultArea.innerHTML = "Commander: " + (legalCommander ? "legal" : "not legal") + "<br>";
+          resultArea.innerHTML += "99: " + (illegal.length == 0 ? "all legal!" : "some cards are not legal, they are listed below") + "<br>";
+          if (illegal.length > 0 || !legalCommander) {
+            resultArea.innerHTML += "Keep in mind that different card databases/websites have different ways of formatting card names.<br>E.g. if a card like \"Aberrant Researcher // Perfected Form\" (double //) is in your deck and marked as non-legal, check if \"Aberrant Researcher / Perfected Form\" (single /) does appear in the quarters legal cards list.";
+          }
+          if (illegal.length > 0) {
+            resultArea.innerHTML += "<ul>"
+            illegal.forEach(element => {
+              resultArea.innerHTML += "<li>" + element + "</li>";
+            });
+            resultArea.innerHTML += "</ul>";
+          }
+        } else {
+          if (illegal.length == 0) {
+            resultArea.innerHTML = "Each card in your deck is quarters <u>legal</u>!<br>Of course, your deck still has to be commander legal (100 cards, singleton, etc etc).";
+          } else {
+            resultArea.innerHTML = "Some cards in your deck are not quarters legal.<br>Keep in mind that different card databases/websites have different ways of formatting card names.<br>E.g. if a card like \"Aberrant Researcher // Perfected Form\" (double //) is in your deck and marked as non-legal, check if \"Aberrant Researcher / Perfected Form\" (single /) does appear in the quarters legal cards list.<br><br><ul>";
+            illegal.forEach(element => {
+              resultArea.innerHTML += "<li>" + element + "</li>";
+            });
+            resultArea.innerHTML += "</ul>";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
