@@ -204,7 +204,7 @@ htmlEnd = """
         </tbody>
     </table>
     <footer>
-      Website made and maintained by Anna. <br>
+      Website made and maintained by Anna. EU version of the format maintained by Avery and Anna.<br>
       Quarters is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.
     </footer>
     </div>
