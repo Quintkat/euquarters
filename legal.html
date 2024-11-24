@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://euquarters.neocities.org/ -->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal breakdown</title>
+    <link href="/euquarters/style.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body>
+    <header>
+      <a href="/euquarters/index.html" class="headerMainLink indexLink">Quarters (A budget commander variant) (Europe version)</a>
+      <a href="/euquarters/legal99.html" class="headerMainLink otherLinks">Legal cards</a>
+      <a href="/euquarters/legalCommanders.html" class="headerMainLink otherLinks">Legal commanders</a>
+      <a href="/euquarters/legalCheck.html" class="headerMainLink otherLinks">Deck checker</a>
+    </header>
+    <div class="bodyContent">
+      <h1>Card legality details</h1>
+      
+      <h2>Why does this have its own page?</h2>
+      <p>
+        I think it's important for the process of deciding when a card is legal to be transparent.<br>
+        Also, a price trend on cardmarket can sometimes be buggy. This complicates the decision process, seeing that we're stuck with a certain legal list for a main set release at a time.<br>
+        So, we have to try to work around the bugs.<br>
+        The list of legal cards is also not made manually since this would not be humanly doable. I developed a script that goes through all of the data and decides based on that data.
+        This simply means that I've made certain assumptions about what this data - including the broken parts - realistically mean about the price trend.<br>
+        Some examples:
+        <ul>
+          <li>
+            Early in development I tested if Sol Ring was legal (it shouldn't have been) and was surprised that it would be listed as legal.
+            I noticed that cardmarket listed one of the versions of Sol Ring as a price trend of €0.02 even though its lowest price was €4.00.
+            The price trend on cardmarket is not always accurate, sometimes it is simply bugged/broken. The €0.02 is the bug that happens most.
+          </li>
+          <li>
+            Some cards also just have a weirdly low price trend sometimes. If a card has a price trend of €0.17 but its lowest price is €0.38, that price trend looks fishy for example.
+          </li>
+          <li>Sometimes, a price trend is missing in the data, or</li>
+        </ul>
+      </p>
+
+      <h2>How is price trend of a card decided?</h2>
+      <p>
+        <ol>
+          <li>The MTG price guide is downloaded from cardmarket and processed.</li>
+          <li>The price trend of each version of a card is retrieved.</li>
+          <li>Does the card-version not have a non-foil price trend? Then the price trend is the foil price trend of that card-version.</li>
+          <li>Is the price trend of the card-version below €0.26 and is the lowest price of the card-version above €0.30? Then the price trend of the card-version is the lowest price. This is seen as the price trend being too inaccurate. The €0.05 cent margin of error is to not falsely flag high-volume cards around the €0.25 range that constantly sell out at the lower prices.</li>
+          <li>Is instead the price trend of the card-version below €0.06 and is the lowest price of the card-version above €0.25? Then the price trend of the card-version is the lowest price. This is seen as the price trend being broken, often at €0.02.</li>
+          <li>Does the card-version have no available price trend data or foil price trend data? Then the card-version is not considered anymore.</li>
+        </ol>
+        For the price trends of versions of commander cards the process is the same, but point 4 and 5 have different price cutoffs for broken data detection:
+        <ol start="4">
+          <li>Is the price trend of the card-version below €1.01 and is the lowest price of the card-version above €1.10? Then the price trend of the card-version is the lowest price. This is seen as the price trend being too inaccurate.</li>
+          <li>Is instead the price trend of the card-version below €0.20 and is the lowest price of the card-version above €1.00? Then the price trend of the card-version is the lowest price. This is seen as the price trend being broken, often at €0.02.</li>
+        </ol>
+      </p>
+
+      <h2>How is the legality of a card decided?</h2>
+      <p>
+        For the cards in the 99:<br>
+        If at least one card-version of a card has a decided price trend of €0.25 or lower, it is quarters legal.
+      </p>
+      <p>
+        For the cards as commander:<br>
+        If at least one card-version of a commander card has a decided price trend of €1.00 or lower, it is quarters legal.
+      </p>
+
+      <h2>Exceptions</h2>
+      <p>
+        Current exceptions that are <u>legal</u>:
+        <ul>
+          <li>Wastes - has a non-legal price trend on cardmarket, but it is a basic land.</li>
+        </ul>
+      </p>
+      <footer>
+        Website made and maintained by Anna. EU version of the format maintained by Avery and Anna.<br>
+        Quarters is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.
+      </footer>
+    </div>
+  </body>
+</html>
