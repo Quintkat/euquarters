@@ -47,7 +47,7 @@
       const quartersCommander = [];
       
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("GET", "/quartersLegal99.txt", false);
+      xmlhttp.open("GET", "/euquarters/quartersLegal99.txt", false);
       xmlhttp.send();
       if (xmlhttp.status==200) {
         xmlhttp.responseText.split("\n").forEach(element => {
@@ -55,7 +55,7 @@
         });
       }
       xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("GET", "/quartersLegalCommanders.txt", false);
+      xmlhttp.open("GET", "/euquarters/quartersLegalCommanders.txt", false);
       xmlhttp.send();
       if (xmlhttp.status==200) {
         xmlhttp.responseText.split("\n").forEach(element => {
