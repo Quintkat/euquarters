@@ -51,7 +51,7 @@
       xmlhttp.send();
       if (xmlhttp.status==200) {
         xmlhttp.responseText.split("\n").forEach(element => {
-          quarters99.push(element.slice(0, element.length-1));
+          quarters99.push(element.slice(0, element.length));
         });
       }
       xmlhttp = new XMLHttpRequest();
@@ -59,11 +59,9 @@
       xmlhttp.send();
       if (xmlhttp.status==200) {
         xmlhttp.responseText.split("\n").forEach(element => {
-          quartersCommander.push(element.slice(0, element.length-1));
+          quartersCommander.push(element.slice(0, element.length));
         });
       }
-
-      console.log(quarters99[27]);
       
       function handleCheck(evt) {
         const lines = textarea.value.split("\n");
